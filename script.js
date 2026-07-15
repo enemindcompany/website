@@ -5,9 +5,25 @@
  * >>> REPLACE THIS with your own Apps Script Web App URL (ends in /exec) <<<
  * See Code.gs for how to get this URL.
  */
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzQ_MeNo2v2Ix0LgVPf5FfsXHNmY1yzZk49kXvhRZE3eP7GNqdSgaVIyEhv4YkNagsBng/exec";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxu1QBBFmrYiuXgiWEAFFGxX1Hppg-Ta5G3xFwk3JzY6hjitwM1W8u2gjcFttm87LX-1A/exec";
 
 document.getElementById("year").textContent = new Date().getFullYear();
+
+/* ---------- Mobile nav toggle ---------- */
+const navToggle = document.getElementById("nav-toggle");
+const navLinks = document.getElementById("nav-links");
+
+navToggle.addEventListener("click", () => {
+  const isOpen = navLinks.classList.toggle("open");
+  navToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+});
+
+navLinks.querySelectorAll("a").forEach((link) => {
+  link.addEventListener("click", () => {
+    navLinks.classList.remove("open");
+    navToggle.setAttribute("aria-expanded", "false");
+  });
+});
 
 /* ---------- Helper: POST JSON to Apps Script ----------
    Apps Script web apps don't support custom headers well with CORS,
@@ -50,7 +66,7 @@ requestForm.addEventListener("submit", async (e) => {
     const result = await postToSheet(data);
 
     if (result.success) {
-      requestStatus.textContent = "Request received — we'll be in touch.";
+      requestStatus.textContent = "Request received — check your email for a confirmation.";
       requestStatus.className = "form-status ok";
       requestForm.reset();
     } else {
