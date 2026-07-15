@@ -90,6 +90,7 @@ header.site {
   align-items: center;
   justify-content: space-between;
   padding: 18px 0;
+  position: relative;
 }
 
 .logo {
@@ -114,6 +115,14 @@ header.site {
   font-family: var(--font-mono);
   font-size: 0.7rem;
   color: var(--copper);
+  overflow: hidden;
+}
+
+.logo .mark img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
 }
 
 .nav-links {
@@ -133,6 +142,44 @@ header.site {
 }
 
 .nav-links a:hover { color: var(--copper-bright); }
+
+/* ---------- Mobile nav toggle ---------- */
+
+.nav-toggle {
+  display: none;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--navy-700);
+  border-radius: 6px;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-toggle .bars {
+  position: relative;
+  width: 18px;
+  height: 12px;
+}
+
+.nav-toggle .bars span {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 1.5px;
+  background: var(--paper);
+  transition: transform 0.2s ease, opacity 0.2s ease, top 0.2s ease;
+}
+
+.nav-toggle .bars span:nth-child(1) { top: 0; }
+.nav-toggle .bars span:nth-child(2) { top: 5px; }
+.nav-toggle .bars span:nth-child(3) { top: 10px; }
+
+.nav-toggle[aria-expanded="true"] .bars span:nth-child(1) { top: 5px; transform: rotate(45deg); }
+.nav-toggle[aria-expanded="true"] .bars span:nth-child(2) { opacity: 0; }
+.nav-toggle[aria-expanded="true"] .bars span:nth-child(3) { top: 5px; transform: rotate(-45deg); }
 
 /* ---------- Hero ---------- */
 
@@ -351,6 +398,78 @@ section { padding: 84px 0; border-top: 1px solid var(--navy-800); }
 
 .social-pill:hover { border-color: var(--copper); color: var(--copper-bright); }
 
+/* ---------- Dashboard preview (sample chart) ---------- */
+
+.chart-panel {
+  margin-top: 40px;
+  border: 1px solid var(--navy-700);
+  border-radius: 12px;
+  background: var(--navy-900);
+  padding: 28px 28px 20px;
+}
+
+.chart-panel-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.chart-panel-head h3 {
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+
+.chart-panel-head p {
+  color: var(--paper-dim);
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.chart-legend {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.chart-legend span {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--paper-dim);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.chart-legend .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.chart-svg { width: 100%; height: auto; display: block; }
+
+.chart-grid-line { stroke: var(--navy-800); stroke-width: 1; }
+.chart-axis-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  fill: var(--paper-dim);
+}
+
+.chart-bar { fill: var(--copper); opacity: 0.85; }
+.chart-bar:hover { opacity: 1; }
+
+.chart-line {
+  fill: none;
+  stroke: var(--circuit-green);
+  stroke-width: 2;
+}
+
+.chart-dot { fill: var(--navy-900); stroke: var(--circuit-green); stroke-width: 2; }
+
 /* ---------- Request form ---------- */
 
 .form-panel {
@@ -446,6 +565,15 @@ form {
 .comment-form input[name="c-name"] { flex: 0 0 200px; }
 .comment-form input[name="c-comment"] { flex: 1 1 260px; }
 
+/* honeypot field: hidden from real visitors, visible to bots that fill every field */
+.hp-field {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
 #comments-list { display: flex; flex-direction: column; gap: 1px; background: var(--navy-800); border: 1px solid var(--navy-800); }
 
 .comment-item {
@@ -501,6 +629,27 @@ footer p { color: var(--paper-dim); font-size: 0.85rem; margin: 0; font-family: 
   .hero-grid { grid-template-columns: 1fr; }
   .schematic { max-width: 380px; margin: 0 auto; }
   .form-panel { grid-template-columns: 1fr; }
+
+  .nav-toggle { display: flex; }
+
+  .nav-links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    gap: 0;
+    background: var(--navy-950);
+    border-bottom: 1px solid var(--navy-700);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.25s ease;
+  }
+
+  .nav-links.open { max-height: 320px; }
+
+  .nav-links li { border-top: 1px solid var(--navy-800); }
+  .nav-links a { display: block; padding: 16px 24px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
